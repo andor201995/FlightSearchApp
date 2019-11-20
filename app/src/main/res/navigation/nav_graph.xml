@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/showFlightList"
+        android:name="com.andor.flightsearch.view.ShowFlightListFragment"
+        android:label="fragment_show_flight_list"
+        tools:layout="@layout/fragment_show_flight_list">
+        <action
+            android:id="@+id/action_showFlightList_to_errorFragment"
+            app:destination="@id/errorFragment"
+            app:popUpTo="@+id/mainFragment" />
+        <action
+            android:id="@+id/action_showFlightList_to_settingBottomSheetFragment"
+            app:destination="@id/settingBottomSheetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/errorFragment"
+        android:name="com.andor.flightsearch.view.ErrorFragment"
+        android:label="fragment_error"
+        tools:layout="@layout/fragment_error">
+        <action
+            android:id="@+id/action_errorFragment_to_showFlightList"
+            app:destination="@id/showFlightList" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.andor.flightsearch.view.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_showFlightList"
+            app:destination="@id/showFlightList" />
+    </fragment>
+    <dialog
+        android:id="@+id/settingBottomSheetFragment"
+        android:name="com.andor.flightsearch.view.SettingBottomSheetFragment"
+        android:label="fragment_setting_bottom_sheet"
+        tools:layout="@layout/fragment_setting_bottom_sheet" />
+</navigation>

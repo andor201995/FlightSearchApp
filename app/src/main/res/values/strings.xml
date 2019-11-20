@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Flight Search</string>
+
+    <string name="delhi_mumbai">Get Delhi-Mumbai Flights</string>
+    <string name="error_msg">Error fetching details swipe to refresh</string>
+    <string name="getting_things_ready">Loading data</string>
+    <string name="airline_name">Airline Name</string>
+    <string name="class_txt">Class</string>
+    <string name="bestprice">BestPrice</string>
+    <string name="arrival_code">Origin Code</string>
+    <string name="dep_time">Dep time</string>
+    <string name="fare_amount">Fare Amount</string>
+    <string name="fare_provider">Fare Provider</string>
+    <string name="select_sorting_type">Select Sorting Type:</string>
+    <string name="fare">Fare</string>
+    <string name="take_off_time">take off time</string>
+    <string name="landing_tume">landing tume</string>
+    <string name="cancle">Cancle</string>
+    <string name="apply">apply</string>
+    <string name="settings">Settings</string>
 </resources>
