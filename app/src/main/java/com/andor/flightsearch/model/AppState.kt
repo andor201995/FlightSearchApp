@@ -10,7 +10,7 @@ data class AppState(
 
 
 sealed class SortingType {
-    object ArrTime : SortingType()
+     object ArrTime : SortingType()
     object DeptTime : SortingType()
     object Fare : SortingType()
 }
