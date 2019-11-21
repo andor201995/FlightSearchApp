@@ -24,7 +24,8 @@
         tools:layout="@layout/fragment_error">
         <action
             android:id="@+id/action_errorFragment_to_showFlightList"
-            app:destination="@id/showFlightList" />
+            app:destination="@id/showFlightList"
+            app:popUpTo="@+id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
