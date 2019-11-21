@@ -76,7 +76,7 @@ class ShowFlightListFragment : Fragment() {
                         adapter.updateList(resource.data!!.flights)
 
                         if (::oldState.isInitialized && it.sortingType != oldState.sortingType) {
-                            flight_list.smoothScrollToPosition(0)
+                            flight_list.layoutManager!!.scrollToPosition(0)
                         }
                     }
                     show_list_loader.invisible()
