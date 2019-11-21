@@ -1,7 +1,7 @@
 package com.andor.flightsearch.model
 
 import com.andor.flightsearch.model.flightModel.FlightDetails
-import com.andor.weatherapp.repo.Resource
+import com.andor.flightsearch.repo.response.Resource
 
 data class AppState(
     val flightDetailsResource: Resource<FlightDetails> = Resource.loading(data = null),

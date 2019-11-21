@@ -8,8 +8,9 @@ import com.andor.flightsearch.model.AppState
 import com.andor.flightsearch.model.SortingType
 import com.andor.flightsearch.model.flightModel.Flight
 import com.andor.flightsearch.repo.Repository
-import com.andor.weatherapp.repo.Resource
-import com.andor.weatherapp.repo.Status
+import com.andor.flightsearch.repo.response.Resource
+import com.andor.flightsearch.repo.response.Status
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,14 +18,14 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
     private val appStateStream = MutableLiveData<AppState>(AppState())
 
 
-    fun loadFlightDetails() {
+    fun loadFlightDetails(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         appStateStream.value = appStateStream.value!!.copy(
             flightDetailsResource = Resource.loading(
                 null
             )
         )
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             val flightDetailResource = repository.getFlightList()
             if (flightDetailResource.status == Status.Success) {
                 val sortedFlightList = sortFlightList(
@@ -63,8 +64,11 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
         return appStateStream
     }
 
-    fun setSortingType(sortingType: SortingType) {
-        viewModelScope.launch(Dispatchers.Default) {
+    fun setSortingType(
+        sortingType: SortingType,
+        dispatcher: CoroutineDispatcher = Dispatchers.Default
+    ) {
+        viewModelScope.launch(dispatcher) {
             val flightDetailResource = appStateStream.value!!.flightDetailsResource
             if (flightDetailResource.status == Status.Success) {
 

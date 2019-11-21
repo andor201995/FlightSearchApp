@@ -1,4 +1,4 @@
-package com.andor.weatherapp.repo
+package com.andor.flightsearch.repo.response
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
     companion object {

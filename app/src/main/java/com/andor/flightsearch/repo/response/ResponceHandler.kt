@@ -1,6 +1,5 @@
 package com.andor.flightsearch.repo.response
 
-import com.andor.weatherapp.repo.Resource
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 

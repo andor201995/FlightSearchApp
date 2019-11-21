@@ -12,7 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.andor.flightsearch.R
 import com.andor.flightsearch.core.FlightSearchViewModel
 import com.andor.flightsearch.model.AppState
-import com.andor.weatherapp.repo.Status
+import com.andor.flightsearch.repo.response.Status
 import kotlinx.android.synthetic.main.fragment_error.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

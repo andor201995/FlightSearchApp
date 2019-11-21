@@ -15,7 +15,7 @@ import com.andor.flightsearch.core.invisible
 import com.andor.flightsearch.core.visible
 import com.andor.flightsearch.model.AppState
 import com.andor.flightsearch.view.adapter.FlightListAdapter
-import com.andor.weatherapp.repo.Status
+import com.andor.flightsearch.repo.response.Status
 import kotlinx.android.synthetic.main.fragment_show_flight_list.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
