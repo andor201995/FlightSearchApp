@@ -14,7 +14,7 @@
     <string name="select_sorting_type">Select Sorting Type:</string>
     <string name="fare">Fare</string>
     <string name="take_off_time">take off time</string>
-    <string name="landing_tume">landing tume</string>
+    <string name="landing_time">landing time</string>
     <string name="cancle">Cancle</string>
     <string name="apply">apply</string>
     <string name="settings">Settings</string>
