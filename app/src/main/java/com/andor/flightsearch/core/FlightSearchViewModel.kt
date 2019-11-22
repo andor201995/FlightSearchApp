@@ -12,6 +12,7 @@ import com.andor.flightsearch.repo.response.Resource
 import com.andor.flightsearch.repo.response.Status
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
@@ -37,6 +38,7 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
                 appStateStream.postValue(appStateStream.value!!.copy(flightDetailsResource = sortedFlightDetailResource))
 
             } else {
+                delay(1500)
                 appStateStream.postValue(appStateStream.value!!.copy(flightDetailsResource = flightDetailResource))
             }
         }
