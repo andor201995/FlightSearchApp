@@ -14,8 +14,8 @@ import com.andor.flightsearch.core.FlightSearchViewModel
 import com.andor.flightsearch.core.invisible
 import com.andor.flightsearch.core.visible
 import com.andor.flightsearch.model.AppState
-import com.andor.flightsearch.view.adapter.FlightListAdapter
 import com.andor.flightsearch.repo.response.Status
+import com.andor.flightsearch.view.adapter.FlightListAdapter
 import kotlinx.android.synthetic.main.fragment_show_flight_list.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -46,7 +46,8 @@ class ShowFlightListFragment : Fragment() {
             val resource = it.flightDetailsResource
             when (resource.status) {
                 is Status.Loading -> {
-                    show_list_loader.visible()
+                    shimmer_view_container.visible()
+                    shimmer_view_container.startShimmer()
                 }
                 is Status.Error -> {
                     NavHostFragment.findNavController(this)
@@ -79,7 +80,8 @@ class ShowFlightListFragment : Fragment() {
                             flight_list.layoutManager!!.scrollToPosition(0)
                         }
                     }
-                    show_list_loader.invisible()
+                    shimmer_view_container.stopShimmer()
+                    shimmer_view_container.invisible()
                 }
             }
             oldState = it
