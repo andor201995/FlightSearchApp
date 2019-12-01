@@ -6,7 +6,7 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/showFlightList"
-        android:name="com.andor.flightsearch.view.ShowFlightListFragment"
+        android:name="com.andor.flightsearch.screens.flightlist.ShowFlightListFragment"
         android:label="fragment_show_flight_list"
         tools:layout="@layout/fragment_show_flight_list">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/errorFragment"
-        android:name="com.andor.flightsearch.view.ErrorFragment"
+        android:name="com.andor.flightsearch.screens.errorfetch.ErrorFragment"
         android:label="fragment_error"
         tools:layout="@layout/fragment_error">
         <action
@@ -29,16 +29,16 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.andor.flightsearch.view.MainFragment"
+        android:name="com.andor.flightsearch.screens.selectflight.SelectFlightFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/fragment_select_flight">
         <action
             android:id="@+id/action_mainFragment_to_showFlightList"
             app:destination="@id/showFlightList" />
     </fragment>
     <dialog
         android:id="@+id/settingBottomSheetFragment"
-        android:name="com.andor.flightsearch.view.SettingBottomSheetFragment"
+        android:name="com.andor.flightsearch.screens.flightlist.SettingBottomSheetFragment"
         android:label="fragment_setting_bottom_sheet"
         tools:layout="@layout/fragment_setting_bottom_sheet" />
 </navigation>
