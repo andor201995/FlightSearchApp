@@ -6,9 +6,9 @@ import com.andor.flightsearch.flight.flightSchema.FlightDetails
 import com.andor.flightsearch.network.Repository
 import com.andor.flightsearch.network.response.Resource
 import com.andor.flightsearch.network.response.Status
-import com.andor.flightsearch.screens.common.AppState
-import com.andor.flightsearch.screens.common.FlightSearchViewModel
-import com.andor.flightsearch.screens.common.SortingType
+import com.andor.flightsearch.screens.common.viewmodel.AppState
+import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
+import com.andor.flightsearch.screens.common.viewmodel.SortingType
 import com.andor.flightsearch.util.getOrAwaitValue
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -49,9 +49,10 @@ class FlightSearchViewModelTest {
             whenever(flightRepo.getFlightList()).thenReturn(successResource)
         }
 
-        viewModel = FlightSearchViewModel(
-            flightRepo
-        )
+        viewModel =
+            FlightSearchViewModel(
+                flightRepo
+            )
         weatherObserver = mock()
         viewModel.getAppStateStream().observeForever(weatherObserver)
     }

@@ -1,4 +1,4 @@
-package com.andor.flightsearch.screens.common
+package com.andor.flightsearch.screens.common.viewmodel
 
 import com.andor.flightsearch.flight.flightSchema.FlightDetails
 import com.andor.flightsearch.network.response.Resource

@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.andor.flightsearch.R
-import com.andor.flightsearch.screens.common.FlightSearchViewModel
-import com.andor.flightsearch.screens.common.AppState
+import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
+import com.andor.flightsearch.screens.common.viewmodel.AppState
 import com.andor.flightsearch.network.response.Status
 import kotlinx.android.synthetic.main.fragment_error.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andor.flightsearch.R
-import com.andor.flightsearch.screens.common.FlightSearchViewModel
+import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.core.invisible
 import com.andor.flightsearch.core.visible
-import com.andor.flightsearch.screens.common.AppState
+import com.andor.flightsearch.screens.common.viewmodel.AppState
 import com.andor.flightsearch.network.response.Status
 import com.andor.flightsearch.screens.flightlist.adapter.FlightListAdapter
 import kotlinx.android.synthetic.main.fragment_show_flight_list.*

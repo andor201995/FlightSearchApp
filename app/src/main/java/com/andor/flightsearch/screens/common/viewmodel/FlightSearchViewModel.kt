@@ -1,4 +1,4 @@
-package com.andor.flightsearch.screens.common
+package com.andor.flightsearch.screens.common.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.andor.flightsearch.screens.main
+package com.andor.flightsearch.screens.common.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

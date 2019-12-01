@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.andor.flightsearch.R
-import com.andor.flightsearch.screens.common.FlightSearchViewModel
+import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import kotlinx.android.synthetic.main.fragment_select_flight.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -18,6 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class SelectFlightFragment : Fragment() {
 
     private val viewModel: FlightSearchViewModel by sharedViewModel()
+    private val selectFlightViewMvc: SelectFlightViewMvc by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
