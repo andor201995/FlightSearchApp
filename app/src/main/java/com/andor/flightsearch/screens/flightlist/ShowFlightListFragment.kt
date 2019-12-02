@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andor.flightsearch.R
-import com.andor.flightsearch.core.invisible
-import com.andor.flightsearch.core.visible
 import com.andor.flightsearch.network.response.Status
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.controllers.BaseFragment
@@ -30,7 +28,7 @@ class ShowFlightListFragment : BaseFragment() {
     lateinit var adapter: FlightListAdapter
     private lateinit var appStateObserver: Observer<AppState>
 
-//    private lateinit var selectFlightViewMvc: SelectFlightViewMvc
+    private lateinit var showFlightListMvc: ShowFlightListMvc
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -39,19 +37,23 @@ class ShowFlightListFragment : BaseFragment() {
     @Inject
     lateinit var screenNavigator: ScreenNavigator
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        presentationComponent.inject(this)
+        viewModel = ViewModelProvider(requireActivity().viewModelStore, viewModelFactory).get(
+            FlightSearchViewModel::class.java
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
-        presentationComponent.inject(this)
-
-        viewModel = ViewModelProvider(requireActivity().viewModelStore, viewModelFactory).get(
-            FlightSearchViewModel::class.java
-        )
+        showFlightListMvc = viewMvcFactory.getShowFlightListMvs(container!!)
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_show_flight_list, container, false)
+        return showFlightListMvc.rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -61,12 +63,11 @@ class ShowFlightListFragment : BaseFragment() {
             val resource = it.flightDetailsResource
             when (resource.status) {
                 is Status.Loading -> {
-                    shimmer_view_container.visible()
-                    shimmer_view_container.startShimmer()
+                    showFlightListMvc.startShimmer()
                 }
                 is Status.Error -> {
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_showFlightList_to_errorFragment)
+                    showFlightListMvc.stopShimmer()
+                    screenNavigator.navigateFromShowFlightListToErrorPage()
                 }
                 is Status.Success -> {
                     if (flight_list.adapter == null && !(::adapter.isInitialized)) {
@@ -95,8 +96,7 @@ class ShowFlightListFragment : BaseFragment() {
                             flight_list.layoutManager!!.scrollToPosition(0)
                         }
                     }
-                    shimmer_view_container.stopShimmer()
-                    shimmer_view_container.invisible()
+                    showFlightListMvc.stopShimmer()
                 }
             }
             oldState = it
