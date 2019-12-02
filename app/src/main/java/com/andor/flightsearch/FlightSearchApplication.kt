@@ -1,23 +1,22 @@
 package com.andor.flightsearch
 
 import android.app.Application
-import com.andor.flightsearch.core.dependencyinjection.appModule
-import com.andor.flightsearch.core.dependencyinjection.networkModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
+import com.andor.flightsearch.core.dependencyinjection.application.ApplicationComponent
+import com.andor.flightsearch.core.dependencyinjection.application.ApplicationModule
+import com.andor.flightsearch.core.dependencyinjection.application.DaggerApplicationComponent
 
 class FlightSearchApplication : Application() {
+
+    private lateinit var mApplicationComponent: ApplicationComponent
+
     override fun onCreate() {
         super.onCreate()
-        startKoin {
-            androidLogger()
-            androidContext(this@FlightSearchApplication)
-            modules(listOf(
-                appModule,
-                networkModule
-            ))
-        }
+        mApplicationComponent = DaggerApplicationComponent.builder().applicationModule(
+            ApplicationModule(this)
+        ).build()
+    }
 
+    fun getApplicationComponent(): ApplicationComponent {
+        return mApplicationComponent
     }
 }

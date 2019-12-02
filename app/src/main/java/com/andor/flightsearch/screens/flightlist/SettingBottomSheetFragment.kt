@@ -10,11 +10,10 @@ import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.screens.common.viewmodel.SortingType
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_setting_bottom_sheet.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SettingBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private val viewModel: FlightSearchViewModel by sharedViewModel()
+    private lateinit var viewModel: FlightSearchViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -6,35 +6,61 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.andor.flightsearch.R
+import androidx.lifecycle.ViewModelProvider
+import com.andor.flightsearch.screens.common.ViewMvcFactory
+import com.andor.flightsearch.screens.common.controllers.BaseFragment
+import com.andor.flightsearch.screens.common.screennavigator.ScreenNavigator
 import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
-import kotlinx.android.synthetic.main.fragment_select_flight.*
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import com.andor.flightsearch.screens.common.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SelectFlightFragment : Fragment() {
+class SelectFlightFragment : BaseFragment(), SelectFlightViewMvc.Listener {
 
-    private val viewModel: FlightSearchViewModel by sharedViewModel()
-    private val selectFlightViewMvc: SelectFlightViewMvc by inject()
+    private lateinit var viewModel: FlightSearchViewModel
+    private lateinit var selectFlightViewMvc: SelectFlightViewMvc
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject
+    lateinit var screenNavigator: ScreenNavigator
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presentationComponent.inject(this)
+        viewModel = ViewModelProvider(
+            requireActivity().viewModelStore,
+            viewModelFactory
+        ).get(FlightSearchViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_select_flight, container, false)
+        selectFlightViewMvc = viewMvcFactory.getSelectFlightViewMvc(container!!)
+
+        return selectFlightViewMvc.rootView
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        btn_main_show_del_mub.setOnClickListener {
-            viewModel.loadFlightDetails()
-            findNavController(this)
-                .navigate(R.id.action_mainFragment_to_showFlightList)
-        }
+    override fun onStart() {
+        super.onStart()
+        selectFlightViewMvc.registerListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        selectFlightViewMvc.unregisterListener(this)
+    }
+
+    override fun onButtonClicked() {
+        viewModel.loadFlightDetails()
+        screenNavigator.navigateFromSelectedFlightToShowFlight()
+
     }
 }
