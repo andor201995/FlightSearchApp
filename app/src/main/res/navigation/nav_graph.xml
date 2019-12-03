@@ -38,7 +38,7 @@
     </fragment>
     <dialog
         android:id="@+id/settingBottomSheetFragment"
-        android:name="com.andor.flightsearch.screens.flightlist.SettingBottomSheetFragment"
+        android:name="com.andor.flightsearch.screens.flightlist.dialog.SettingBottomSheetFragment"
         android:label="fragment_setting_bottom_sheet"
         tools:layout="@layout/fragment_setting_bottom_sheet" />
 </navigation>

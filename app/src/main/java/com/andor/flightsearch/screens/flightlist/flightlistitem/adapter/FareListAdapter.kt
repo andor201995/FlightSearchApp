@@ -1,4 +1,4 @@
-package com.andor.flightsearch.screens.flightlist.adapter
+package com.andor.flightsearch.screens.flightlist.flightlistitem.adapter
 
 import android.view.LayoutInflater
 import android.view.View

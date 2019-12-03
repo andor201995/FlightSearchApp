@@ -1,4 +1,4 @@
-package com.andor.flightsearch.screens.flightlist
+package com.andor.flightsearch.screens.flightlist.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

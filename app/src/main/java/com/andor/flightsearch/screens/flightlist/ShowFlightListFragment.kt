@@ -9,10 +9,10 @@ import com.andor.flightsearch.network.response.Status
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.controllers.BaseFragment
 import com.andor.flightsearch.screens.common.screennavigator.ScreenNavigator
-import com.andor.flightsearch.screens.common.toolbar.ToolbarMvc
 import com.andor.flightsearch.screens.common.viewmodel.AppState
 import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.screens.common.viewmodel.ViewModelFactory
+import com.andor.flightsearch.screens.flightlist.toolbar.ToolbarMvc
 import javax.inject.Inject
 
 class ShowFlightListFragment : BaseFragment(), ToolbarMvc.Listener {
@@ -87,7 +87,6 @@ class ShowFlightListFragment : BaseFragment(), ToolbarMvc.Listener {
 
         toolbarMvc = viewMvcFactory.getToolBarMvc(inflater, menu)
 
-        toolbarMvc.inflateMenu()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

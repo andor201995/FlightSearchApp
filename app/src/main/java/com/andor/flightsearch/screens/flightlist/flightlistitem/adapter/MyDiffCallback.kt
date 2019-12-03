@@ -1,4 +1,4 @@
-package com.andor.flightsearch.screens.flightlist.adapter
+package com.andor.flightsearch.screens.flightlist.flightlistitem.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.andor.flightsearch.flight.flightSchema.Flight

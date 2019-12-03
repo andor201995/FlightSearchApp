@@ -1,4 +1,4 @@
-package com.andor.flightsearch.screens.common.toolbar
+package com.andor.flightsearch.screens.flightlist.toolbar
 
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,7 +13,11 @@ class ToolbarMvc(private val menuInflater: MenuInflater, private val menu: Menu)
         fun onSettingOptionSelected()
     }
 
-    fun inflateMenu() {
+    init {
+        inflateMenu()
+    }
+
+    private fun inflateMenu() {
         menuInflater.inflate(R.menu.main_menu, menu)
     }
 
