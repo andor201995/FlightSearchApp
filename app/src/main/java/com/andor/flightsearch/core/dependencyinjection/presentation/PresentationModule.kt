@@ -29,8 +29,10 @@ class PresentationModule(private val mActivity: FragmentActivity) {
     }
 
     @Provides
-    fun provideViewMvcFactory(inflater: LayoutInflater): ViewMvcFactory {
-        return ViewMvcFactory(inflater)
+    fun provideViewMvcFactory(
+        layoutInflater: LayoutInflater
+    ): ViewMvcFactory {
+        return ViewMvcFactory(layoutInflater)
     }
 
     @Provides

@@ -1,21 +1,24 @@
 package com.andor.flightsearch.screens.common.screennavigator
 
 import android.app.Activity
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.Navigation
 import com.andor.flightsearch.R
 
 class ScreenNavigator(private val activity: Activity) {
 
-    val navHostController = findNavController(activity, R.id.nav_host)
-
     fun navigateFromSelectedFlightToShowFlight() {
-        navHostController
+        Navigation.findNavController(activity, R.id.nav_host)
             .navigate(R.id.action_mainFragment_to_showFlightList)
     }
 
     fun navigateFromShowFlightListToErrorPage() {
-        navHostController
+        Navigation.findNavController(activity, R.id.nav_host)
             .navigate(R.id.action_showFlightList_to_errorFragment)
+    }
+
+    fun navigateFromSHowFlightToSettingDialog() {
+        Navigation.findNavController(activity, R.id.nav_host)
+            .navigate(R.id.action_showFlightList_to_settingBottomSheetFragment)
     }
 
 }

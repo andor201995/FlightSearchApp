@@ -23,8 +23,8 @@ import kotlin.collections.ArrayList
 class FlightListAdapter(private val context: Context) :
     RecyclerView.Adapter<FlightListAdapter.FlightHolder>() {
 
-    lateinit var appendix: Appendix
-    lateinit var flightList: ArrayList<Flight>
+    private var appendix: Appendix = Appendix()
+    private val flightList: ArrayList<Flight> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlightHolder {
         val itemView =
@@ -108,7 +108,10 @@ class FlightListAdapter(private val context: Context) :
         return ArrayList(fareList.sortedBy { it.fare })
     }
 
-    fun updateList(newFlights: List<Flight>) {
+    fun updateList(
+        newFlights: List<Flight>,
+        appendix: Appendix
+    ) {
         val diffResult = DiffUtil.calculateDiff(
             MyDiffCallback(
                 this.flightList,
@@ -117,6 +120,7 @@ class FlightListAdapter(private val context: Context) :
         )
         flightList.clear()
         flightList.addAll(newFlights)
+        this.appendix = appendix
         diffResult.dispatchUpdatesTo(this)
     }
 
