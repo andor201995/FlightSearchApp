@@ -1,29 +1,32 @@
 package com.andor.flightsearch.screens.common.screennavigator
 
 import android.app.Activity
-import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
 import com.andor.flightsearch.R
+import com.andor.flightsearch.core.navigateSafe
 
 class ScreenNavigator(private val activity: Activity) {
 
     fun navigateFromSelectedFlightToShowFlight() {
-        Navigation.findNavController(activity, R.id.nav_host)
-            .navigate(R.id.action_mainFragment_to_showFlightList)
+        findNavController(activity, R.id.nav_host)
+            .navigateSafe(R.id.selectFlightFragment, R.id.action_selectFlightFragment_to_showFlightList)
     }
 
     fun navigateFromShowFlightListToErrorPage() {
-        Navigation.findNavController(activity, R.id.nav_host)
-            .navigate(R.id.action_showFlightList_to_errorFragment)
+        findNavController(activity, R.id.nav_host)
+            .navigateSafe(R.id.showFlightList, R.id.action_showFlightList_to_errorFragment)
     }
 
     fun navigateFromSHowFlightToSettingDialog() {
-        Navigation.findNavController(activity, R.id.nav_host)
-            .navigate(R.id.action_showFlightList_to_settingBottomSheetFragment)
+        findNavController(activity, R.id.nav_host)
+            .navigateSafe(
+                R.id.showFlightList,
+                R.id.action_showFlightList_to_settingBottomSheetFragment
+            )
     }
 
     fun navigateUp() {
-        Navigation.findNavController(activity, R.id.nav_host).navigateUp()
-
+        findNavController(activity, R.id.nav_host).navigateUp()
     }
-
 }
+

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/selectFlightFragment">
     <fragment
         android:id="@+id/showFlightList"
         android:name="com.andor.flightsearch.screens.flightlist.ShowFlightListFragment"
@@ -12,7 +12,7 @@
         <action
             android:id="@+id/action_showFlightList_to_errorFragment"
             app:destination="@id/errorFragment"
-            app:popUpTo="@+id/mainFragment" />
+            app:popUpTo="@+id/selectFlightFragment" />
         <action
             android:id="@+id/action_showFlightList_to_settingBottomSheetFragment"
             app:destination="@id/settingBottomSheetFragment" />
@@ -25,15 +25,15 @@
         <action
             android:id="@+id/action_errorFragment_to_showFlightList"
             app:destination="@id/showFlightList"
-            app:popUpTo="@+id/mainFragment" />
+            app:popUpTo="@+id/selectFlightFragment" />
     </fragment>
     <fragment
-        android:id="@+id/mainFragment"
+        android:id="@+id/selectFlightFragment"
         android:name="com.andor.flightsearch.screens.selectflight.SelectFlightFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_select_flight">
         <action
-            android:id="@+id/action_mainFragment_to_showFlightList"
+            android:id="@+id/action_selectFlightFragment_to_showFlightList"
             app:destination="@id/showFlightList" />
     </fragment>
     <dialog

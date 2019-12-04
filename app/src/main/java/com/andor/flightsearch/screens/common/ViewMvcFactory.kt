@@ -43,7 +43,9 @@ class ViewMvcFactory(
         return FareListItemMvcImpl(inflater, parent)
     }
 
-    fun getSettingBottomSheetMvc(parent: ViewGroup?): SettingBottomSheetMvc {
+    fun getSettingBottomSheetMvc(
+        parent: ViewGroup?
+    ): SettingBottomSheetMvc {
         return SettingBottomSheetMvcImpl(inflater, parent)
     }
 

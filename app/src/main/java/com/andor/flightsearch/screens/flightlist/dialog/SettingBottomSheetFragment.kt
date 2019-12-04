@@ -47,11 +47,11 @@ class SettingBottomSheetFragment : BaseBottomSheetDialogFragment(), SettingBotto
         viewModel.getAppStateStream().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             viewMvc.setCheckBoxType(it.sortingType)
         })
-        screenNavigator.navigateUp()
     }
 
     override fun onApplyButtonClicked(sortingType: SortingType) {
         viewModel.setSortingType(sortingType)
+        screenNavigator.navigateUp()
     }
 
     override fun onCancelButtonClicked() {
