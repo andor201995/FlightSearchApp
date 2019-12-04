@@ -17,7 +17,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 
 class ShowFlightListMvcImpl(
     inflater: LayoutInflater,
-    parent: ViewGroup,
+    parent: ViewGroup?,
     viewMvcFactory: ViewMvcFactory
 ) : BaseViewMvc(),
     ShowFlightListMvc {

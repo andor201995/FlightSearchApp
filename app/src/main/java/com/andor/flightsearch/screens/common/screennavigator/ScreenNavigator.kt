@@ -21,4 +21,9 @@ class ScreenNavigator(private val activity: Activity) {
             .navigate(R.id.action_showFlightList_to_settingBottomSheetFragment)
     }
 
+    fun navigateUp() {
+        Navigation.findNavController(activity, R.id.nav_host).navigateUp()
+
+    }
+
 }

@@ -6,7 +6,7 @@ import android.widget.Button
 import com.andor.flightsearch.R
 import com.andor.flightsearch.screens.common.views.BaseObservableViewMvc
 
-class SelectFlightViewMvcImpl(inflater: LayoutInflater, parent: ViewGroup) :
+class SelectFlightViewMvcImpl(inflater: LayoutInflater, parent: ViewGroup?) :
     BaseObservableViewMvc<SelectFlightViewMvc.Listener>(), SelectFlightViewMvc {
 
     init {

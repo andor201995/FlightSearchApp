@@ -43,7 +43,7 @@ class SelectFlightFragment : BaseFragment(), SelectFlightViewMvc.Listener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        selectFlightViewMvc = viewMvcFactory.getSelectFlightViewMvc(container!!)
+        selectFlightViewMvc = viewMvcFactory.getSelectFlightViewMvc(container)
 
         return selectFlightViewMvc.rootView
     }

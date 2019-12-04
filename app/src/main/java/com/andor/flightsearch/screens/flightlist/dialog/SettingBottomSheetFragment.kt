@@ -4,64 +4,69 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.NavHostFragment
-import com.andor.flightsearch.R
+import androidx.lifecycle.ViewModelProvider
+import com.andor.flightsearch.screens.common.ViewMvcFactory
+import com.andor.flightsearch.screens.common.controllers.BaseBottomSheetDialogFragment
+import com.andor.flightsearch.screens.common.screennavigator.ScreenNavigator
 import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.screens.common.viewmodel.SortingType
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_setting_bottom_sheet.*
+import com.andor.flightsearch.screens.common.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
-class SettingBottomSheetFragment : BottomSheetDialogFragment() {
+class SettingBottomSheetFragment : BaseBottomSheetDialogFragment(), SettingBottomSheetMvc.Listener {
 
+    private lateinit var viewMvc: SettingBottomSheetMvc
     private lateinit var viewModel: FlightSearchViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject
+    lateinit var screenNavigator: ScreenNavigator
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presentationComponent.inject(this)
+        viewModel = ViewModelProvider(requireActivity().viewModelStore, viewModelFactory).get(
+            FlightSearchViewModel::class.java
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewMvc = viewMvcFactory.getSettingBottomSheetMvc(container)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting_bottom_sheet, container, false)
+        return viewMvc.rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         viewModel.getAppStateStream().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            setSortingType(it.sortingType)
+            viewMvc.setCheckBoxType(it.sortingType)
         })
-
-        btn_cancel.setOnClickListener {
-            NavHostFragment.findNavController(this).navigateUp()
-        }
-        btn_apply.setOnClickListener {
-            when (radio_group_sorting.checkedRadioButtonId) {
-                R.id.radioButton_sort_by_arr_time -> {
-                    viewModel.setSortingType(SortingType.ArrTime)
-                }
-                R.id.radioButton_sort_by_dept_time -> {
-                    viewModel.setSortingType(SortingType.DeptTime)
-                }
-                R.id.radioButton_sort_by_fare -> {
-                    viewModel.setSortingType(SortingType.Fare)
-                }
-            }
-            NavHostFragment.findNavController(this).navigateUp()
-        }
-
+        screenNavigator.navigateUp()
     }
 
-    private fun setSortingType(sortingType: SortingType) {
-        when (sortingType) {
-            SortingType.Fare -> {
-                radio_group_sorting.check(R.id.radioButton_sort_by_fare)
-            }
-            SortingType.ArrTime -> {
-                radio_group_sorting.check(R.id.radioButton_sort_by_arr_time)
-            }
-            SortingType.DeptTime -> {
-                radio_group_sorting.check(R.id.radioButton_sort_by_dept_time)
-            }
-        }
+    override fun onApplyButtonClicked(sortingType: SortingType) {
+        viewModel.setSortingType(sortingType)
     }
+
+    override fun onCancelButtonClicked() {
+        screenNavigator.navigateUp()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewMvc.registerListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewMvc.unregisterListener(this)
+    }
+
 
 }

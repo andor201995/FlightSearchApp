@@ -47,7 +47,7 @@ class ShowFlightListFragment : BaseFragment(), ToolbarMvc.Listener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        showFlightListMvc = viewMvcFactory.getShowFlightListMvc(container!!)
+        showFlightListMvc = viewMvcFactory.getShowFlightListMvc(container)
         // Inflate the layout for this fragment
         return showFlightListMvc.rootView
     }
@@ -74,6 +74,7 @@ class ShowFlightListFragment : BaseFragment(), ToolbarMvc.Listener {
                         showFlightListMvc.scrollListToTop()
                     }
                     showFlightListMvc.stopShimmer()
+                    requireActivity().invalidateOptionsMenu()
                 }
             }
             oldState = it
@@ -84,9 +85,17 @@ class ShowFlightListFragment : BaseFragment(), ToolbarMvc.Listener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+        if (viewModel.getAppStateStream().value!!.flightDetailsResource.status is Status.Success) {
+            toolbarMvc = viewMvcFactory.getToolBarMvc(inflater, menu)
+            toolbarMvc.registerListener(this)
+        }
+    }
 
-        toolbarMvc = viewMvcFactory.getToolBarMvc(inflater, menu)
-
+    override fun onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu()
+        if (::toolbarMvc.isInitialized) {
+            toolbarMvc.unregisterListener(this)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
