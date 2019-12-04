@@ -21,7 +21,7 @@ import java.util.*
 class FlightListItemMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup,
-    viewMvcFactory: ViewMvcFactory
+    private val viewMvcFactory: ViewMvcFactory
 ) : BaseViewMvc(),
     FlightListItemMvc {
 
@@ -104,7 +104,7 @@ class FlightListItemMvcImpl(
         flight: Flight,
         appendix: Appendix
     ) {
-        val adapter = FareListAdapter()
+        val adapter = FareListAdapter(viewMvcFactory)
         val sortFareList = sortFareList(flight.fares)
 
         adapter.fareList = sortFareList

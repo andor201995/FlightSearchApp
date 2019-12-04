@@ -6,6 +6,8 @@ import android.view.MenuInflater
 import android.view.ViewGroup
 import com.andor.flightsearch.screens.flightlist.ShowFlightListMvc
 import com.andor.flightsearch.screens.flightlist.ShowFlightListMvcImpl
+import com.andor.flightsearch.screens.flightlist.flightlistitem.FareListItemMvc
+import com.andor.flightsearch.screens.flightlist.flightlistitem.FareListItemMvcImpl
 import com.andor.flightsearch.screens.flightlist.flightlistitem.FlightListItemMvc
 import com.andor.flightsearch.screens.flightlist.flightlistitem.FlightListItemMvcImpl
 import com.andor.flightsearch.screens.flightlist.toolbar.ToolbarMvc
@@ -33,6 +35,10 @@ class ViewMvcFactory(
 
     fun getFlightListItemMvc(parent: ViewGroup): FlightListItemMvc {
         return FlightListItemMvcImpl(inflater, parent, this)
+    }
+
+    fun getFareListItemMvc(parent: ViewGroup): FareListItemMvc {
+        return FareListItemMvcImpl(inflater, parent)
     }
 
 }
