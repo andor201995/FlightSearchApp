@@ -72,4 +72,14 @@ class ErrorFragment : BaseFragment(), ErrorViewMvc.Listener {
         viewModel.loadFlightDetails()
         screenNavigator.navigateFromErrorToShowFlightListPage()
     }
+
+    override fun onStart() {
+        super.onStart()
+        viewMvc.registerListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewMvc.unregisterListener(this)
+    }
 }
