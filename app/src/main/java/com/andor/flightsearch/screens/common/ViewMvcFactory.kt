@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.ViewGroup
+import com.andor.flightsearch.screens.errorfetch.ErrorViewMvc
+import com.andor.flightsearch.screens.errorfetch.ErrorViewMvcImpl
 import com.andor.flightsearch.screens.flightlist.ShowFlightListMvc
 import com.andor.flightsearch.screens.flightlist.ShowFlightListMvcImpl
 import com.andor.flightsearch.screens.flightlist.dialog.SettingBottomSheetMvc
@@ -47,6 +49,10 @@ class ViewMvcFactory(
         parent: ViewGroup?
     ): SettingBottomSheetMvc {
         return SettingBottomSheetMvcImpl(inflater, parent)
+    }
+
+    fun getErrorMvc(parent: ViewGroup?): ErrorViewMvc {
+        return ErrorViewMvcImpl(inflater,parent)
     }
 
 }

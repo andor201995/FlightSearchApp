@@ -9,7 +9,10 @@ class ScreenNavigator(private val activity: Activity) {
 
     fun navigateFromSelectedFlightToShowFlight() {
         findNavController(activity, R.id.nav_host)
-            .navigateSafe(R.id.selectFlightFragment, R.id.action_selectFlightFragment_to_showFlightList)
+            .navigateSafe(
+                R.id.selectFlightFragment,
+                R.id.action_selectFlightFragment_to_showFlightList
+            )
     }
 
     fun navigateFromShowFlightListToErrorPage() {
@@ -27,6 +30,11 @@ class ScreenNavigator(private val activity: Activity) {
 
     fun navigateUp() {
         findNavController(activity, R.id.nav_host).navigateUp()
+    }
+
+    fun navigateFromErrorToShowFlightListPage() {
+        findNavController(activity, R.id.nav_host)
+            .navigate(R.id.action_errorFragment_to_showFlightList)
     }
 }
 
