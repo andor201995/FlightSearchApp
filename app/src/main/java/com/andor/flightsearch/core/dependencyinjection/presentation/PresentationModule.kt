@@ -9,6 +9,7 @@ import com.andor.flightsearch.flight.FetchFlightListUseCaseImpl
 import com.andor.flightsearch.network.flight.FetchFlightListEndPoint
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.screennavigator.ScreenNavigator
+import com.andor.flightsearch.screens.flightlist.ShowFlightListController
 import dagger.Module
 import dagger.Provides
 
@@ -36,6 +37,15 @@ class PresentationModule(private val mActivity: FragmentActivity) {
         layoutInflater: LayoutInflater
     ): ViewMvcFactory {
         return ViewMvcFactory(layoutInflater)
+    }
+
+    @Provides
+    fun provideShowFlightController(
+        screenNavigator: ScreenNavigator,
+        activity: Activity,
+        viewMvcFactory: ViewMvcFactory
+    ): ShowFlightListController {
+        return ShowFlightListController(screenNavigator, activity,viewMvcFactory)
     }
 
     @Provides
