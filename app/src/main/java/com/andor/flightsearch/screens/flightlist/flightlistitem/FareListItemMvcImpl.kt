@@ -4,9 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import com.andor.flightsearch.R
-import com.andor.flightsearch.flight.flightSchema.Appendix
-import com.andor.flightsearch.flight.flightSchema.Fare
-import com.andor.flightsearch.flight.flightSchema.Providers
+import com.andor.flightsearch.flight.FlightFareDetail
 import com.andor.flightsearch.screens.common.views.BaseViewMvc
 
 class FareListItemMvcImpl(inflater: LayoutInflater, parent: ViewGroup) : BaseViewMvc(),
@@ -21,22 +19,8 @@ class FareListItemMvcImpl(inflater: LayoutInflater, parent: ViewGroup) : BaseVie
         fareTxt = findViewById(R.id.txt_fare)
     }
 
-    override fun bindFare(fare: Fare, appendix: Appendix) {
-        fareProviderTxt.text = when (fare.providerId) {
-            Providers.providerCode1 -> {
-                appendix.providers.`1`
-            }
-            Providers.providerCode2 -> {
-                appendix.providers.`2`
-            }
-            Providers.providerCode3 -> {
-                appendix.providers.`3`
-            }
-            Providers.providerCode4 -> {
-                appendix.providers.`4`
-            }
-            else -> "Unknown"
-        }
-        fareTxt.text = fare.fare.toString()
+    override fun bindFare(fare: FlightFareDetail) {
+        fareProviderTxt.text = fare.providerName
+        fareTxt.text = fare.costOfFlight.toString()
     }
 }

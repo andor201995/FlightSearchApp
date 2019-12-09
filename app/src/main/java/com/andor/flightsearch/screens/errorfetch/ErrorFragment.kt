@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.andor.flightsearch.network.response.Status
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.controllers.BaseFragment
 import com.andor.flightsearch.screens.common.screennavigator.ScreenNavigator
 import com.andor.flightsearch.screens.common.viewmodel.AppState
+import com.andor.flightsearch.screens.common.viewmodel.FlightResponseType
 import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.screens.common.viewmodel.ViewModelFactory
 import javax.inject.Inject
@@ -57,9 +57,9 @@ class ErrorFragment : BaseFragment(), ErrorViewMvc.Listener {
 
         appStateObserver = Observer {
 
-            when (it.flightDetailsResource.status) {
-                is Status.Error -> {
-                    viewMvc.displayErrorMessage(it.flightDetailsResource.message)
+            when (it.flightResponseType) {
+                is FlightResponseType.Failure -> {
+                    viewMvc.displayErrorMessage("Error")
                 }
             }
 

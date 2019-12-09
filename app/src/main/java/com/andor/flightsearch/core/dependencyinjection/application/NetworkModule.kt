@@ -1,8 +1,8 @@
 package com.andor.flightsearch.core.dependencyinjection.application
 
 import com.andor.flightsearch.BuildConfig
-import com.andor.flightsearch.network.Repository
-import com.andor.flightsearch.network.RepositoryImpl
+import com.andor.flightsearch.network.flight.FetchFlightListEndPoint
+import com.andor.flightsearch.network.flight.FetchFlightListEndPointImpl
 import com.andor.flightsearch.network.api.FlightApi
 import com.andor.flightsearch.network.response.ResponseHandler
 import dagger.Module
@@ -35,8 +35,11 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRepository(flightApi: FlightApi, responseHandler: ResponseHandler): Repository {
-        return RepositoryImpl(flightApi, responseHandler)
+    fun provideFetchListEndPoint(flightApi: FlightApi, responseHandler: ResponseHandler): FetchFlightListEndPoint {
+        return FetchFlightListEndPointImpl(
+            flightApi,
+            responseHandler
+        )
     }
 
     @Provides

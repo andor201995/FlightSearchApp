@@ -4,59 +4,48 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.andor.flightsearch.flight.flightSchema.Flight
-import com.andor.flightsearch.network.Repository
-import com.andor.flightsearch.network.response.Resource
-import com.andor.flightsearch.network.response.Status
+import com.andor.flightsearch.flight.FetchFlightListUseCase
+import com.andor.flightsearch.flight.FlightDetail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
+class FlightSearchViewModel(private val useCase: FetchFlightListUseCase) :
+    ViewModel(), FetchFlightListUseCase.Listener {
+
     private val appStateStream = MutableLiveData<AppState>(
         AppState()
     )
 
+    init {
+        useCase.registerListener(this)
+    }
 
-    fun loadFlightDetails(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+    override fun onCleared() {
+        super.onCleared()
+        useCase.unregisterListener(this)
+    }
+
+    fun loadFlightDetails() {
         appStateStream.value = appStateStream.value!!.copy(
-            flightDetailsResource = Resource.loading(
-                null
-            )
+            flightResponseType = FlightResponseType.Loading
         )
-
-        viewModelScope.launch(dispatcher) {
-            val flightDetailResource = repository.getFlightList()
-            if (flightDetailResource.status == Status.Success) {
-                val sortedFlightList = sortFlightList(
-                    flightDetailResource.data!!.flights,
-                    appStateStream.value!!.sortingType
-                )
-                val sortedFlightDetailResource =
-                    flightDetailResource.copy(data = flightDetailResource.data.copy(flights = sortedFlightList))
-                appStateStream.postValue(appStateStream.value!!.copy(flightDetailsResource = sortedFlightDetailResource))
-
-            } else {
-                delay(1500)
-                appStateStream.postValue(appStateStream.value!!.copy(flightDetailsResource = flightDetailResource))
-            }
-        }
+        useCase.fetchQuestionList()
     }
 
     private fun sortFlightList(
-        flights: List<Flight>,
+        flights: List<FlightDetail>,
         sortingType: SortingType
-    ): List<Flight> {
+    ): List<FlightDetail> {
         return when (sortingType) {
             SortingType.DeptTime -> {
-                flights.sortedBy { it.departureTime }
+                flights.sortedBy { it.flightDepartureTimeStamp }
             }
             SortingType.ArrTime -> {
-                flights.sortedBy { it.arrivalTime }
+                flights.sortedBy { it.flightArrivalTimeStamp }
             }
             SortingType.Fare -> {
-                flights.sortedBy { it.getBestPriceProvider().fare }
+                flights.sortedBy { it.getBestPriceProvider().costOfFlight }
             }
         }
     }
@@ -71,25 +60,44 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
         dispatcher: CoroutineDispatcher = Dispatchers.Default
     ) {
         viewModelScope.launch(dispatcher) {
-            val flightDetailResource = appStateStream.value!!.flightDetailsResource
-            if (flightDetailResource.status == Status.Success) {
+            val flightResponseType = appStateStream.value!!.flightResponseType
+            if (flightResponseType is FlightResponseType.Success) {
 
                 val sortedFlightList = sortFlightList(
-                    flightDetailResource.data!!.flights,
+                    flightResponseType.flightDetailList,
                     sortingType
                 )
-                val sortedFlightDetailResource =
-                    flightDetailResource.copy(data = flightDetailResource.data.copy(flights = sortedFlightList))
-
                 appStateStream.postValue(
                     appStateStream.value!!.copy(
-                        flightDetailsResource = sortedFlightDetailResource,
+                        flightResponseType = flightResponseType.copy(flightDetailList = sortedFlightList),
                         sortingType = sortingType
                     )
                 )
 
             }
         }
+    }
+
+    override fun onFlightDetailsFetched(flightDetailList: List<FlightDetail>) {
+        val sortedFlightList = sortFlightList(
+            flightDetailList,
+            appStateStream.value!!.sortingType
+        )
+        appStateStream.postValue(
+            appStateStream.value!!.copy(
+                flightResponseType = FlightResponseType.Success(
+                    sortedFlightList
+                )
+            )
+        )
+    }
+
+    override fun onFetchFailed() {
+        appStateStream.postValue(
+            appStateStream.value!!.copy(
+                flightResponseType = FlightResponseType.Failure
+            )
+        )
     }
 
 }

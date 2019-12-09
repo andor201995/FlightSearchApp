@@ -22,5 +22,4 @@ public abstract class BaseObservable<LISTENER_CLASS> {
     protected final Set<LISTENER_CLASS> getListeners() {
         return Collections.unmodifiableSet(mListeners);
     }
-
 }

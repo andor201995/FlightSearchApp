@@ -2,8 +2,8 @@ package com.andor.flightsearch.core
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.andor.flightsearch.flight.flightSchema.FlightDetails
-import com.andor.flightsearch.network.Repository
+import com.andor.flightsearch.network.flight.flightSchema.FlightSchema
+import com.andor.flightsearch.network.flight.FetchFlightListEndPoint
 import com.andor.flightsearch.network.response.Resource
 import com.andor.flightsearch.network.response.Status
 import com.andor.flightsearch.screens.common.viewmodel.AppState
@@ -11,7 +11,6 @@ import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.screens.common.viewmodel.SortingType
 import com.andor.flightsearch.util.getOrAwaitValue
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -31,10 +30,10 @@ import org.junit.runners.JUnit4
 class FlightSearchViewModelTest {
 
     private lateinit var viewModel: FlightSearchViewModel
-    private lateinit var flightRepo: Repository
+    private lateinit var flightRepo: FetchFlightListEndPoint
     private lateinit var weatherObserver: Observer<AppState>
 
-    private val successResource = Resource.success(FlightDetails())
+    private val successResource = Resource.success(FlightSchema())
 
     @Rule
     @JvmField
@@ -46,7 +45,7 @@ class FlightSearchViewModelTest {
     fun setupBefore() {
         flightRepo = mock()
         runBlocking {
-            whenever(flightRepo.getFlightList()).thenReturn(successResource)
+//            whenever(flightRepo.fetchFlightListAndNotify()).thenReturn(successResource)
         }
 
         viewModel =
@@ -65,12 +64,12 @@ class FlightSearchViewModelTest {
     @Test
     fun loadFlightDetails() = testCoroutineDispatcher.runBlockingTest {
         testCoroutineDispatcher.pauseDispatcher()
-        viewModel.loadFlightDetails(dispatcher = testCoroutineDispatcher)
+        viewModel.loadFlightDetails()
         val beforeCoroutineValue = viewModel.getAppStateStream().getOrAwaitValue()
-        assertEquals(Status.Loading, beforeCoroutineValue.flightDetailsResource.status)
+        assertEquals(Status.Loading, beforeCoroutineValue.flightSchemaResource.status)
         testCoroutineDispatcher.resumeDispatcher()
         val afterCoroutineValue = viewModel.getAppStateStream().getOrAwaitValue()
-        assertEquals(Status.Success, afterCoroutineValue.flightDetailsResource.status)
+        assertEquals(Status.Success, afterCoroutineValue.flightSchemaResource.status)
     }
 
 
@@ -110,6 +109,6 @@ class FlightSearchViewModelTest {
     }
 
     private fun loadData() {
-        viewModel.loadFlightDetails(dispatcher = testCoroutineDispatcher)
+        viewModel.loadFlightDetails()
     }
 }

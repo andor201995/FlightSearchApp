@@ -1,6 +1,6 @@
-package com.andor.flightsearch.flight.flightSchema
+package com.andor.flightsearch.network.flight.flightSchema
 
-data class FlightDetails(
+data class FlightSchema(
     val appendix: Appendix = Appendix(),
     val flights: List<Flight> = listOf()
 )

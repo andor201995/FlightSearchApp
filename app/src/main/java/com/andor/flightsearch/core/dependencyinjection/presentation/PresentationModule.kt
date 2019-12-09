@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentActivity
+import com.andor.flightsearch.flight.FetchFlightListUseCase
+import com.andor.flightsearch.flight.FetchFlightListUseCaseImpl
+import com.andor.flightsearch.network.flight.FetchFlightListEndPoint
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.screennavigator.ScreenNavigator
 import dagger.Module
@@ -38,5 +41,10 @@ class PresentationModule(private val mActivity: FragmentActivity) {
     @Provides
     fun provideScreenNavigator(activity: Activity): ScreenNavigator {
         return ScreenNavigator(activity)
+    }
+
+    @Provides
+    fun provideFetchFlightListUseCase(fetchFlightListEndPoint: FetchFlightListEndPoint): FetchFlightListUseCase {
+        return FetchFlightListUseCaseImpl(fetchFlightListEndPoint)
     }
 }

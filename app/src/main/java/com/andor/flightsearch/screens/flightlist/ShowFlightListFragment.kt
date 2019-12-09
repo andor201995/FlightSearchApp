@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.andor.flightsearch.network.response.Status
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.controllers.BaseFragment
 import com.andor.flightsearch.screens.common.screennavigator.ScreenNavigator
 import com.andor.flightsearch.screens.common.viewmodel.AppState
+import com.andor.flightsearch.screens.common.viewmodel.FlightResponseType
 import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.screens.common.viewmodel.ViewModelFactory
 import com.andor.flightsearch.screens.flightlist.toolbar.ToolbarMvc
@@ -56,19 +56,17 @@ class ShowFlightListFragment : BaseFragment(), ToolbarMvc.Listener {
         super.onActivityCreated(savedInstanceState)
 
         appStateObserver = Observer {
-            val resource = it.flightDetailsResource
-            when (resource.status) {
-                is Status.Loading -> {
+            when (val response = it.flightResponseType) {
+                is FlightResponseType.Loading -> {
                     showFlightListMvc.startShimmer()
                 }
-                is Status.Error -> {
+                is FlightResponseType.Failure -> {
                     showFlightListMvc.stopShimmer()
                     screenNavigator.navigateFromShowFlightListToErrorPage()
                 }
-                is Status.Success -> {
+                is FlightResponseType.Success -> {
                     showFlightListMvc.updateFlightList(
-                        resource.data!!.flights,
-                        resource.data.appendix
+                        response.flightDetailList
                     )
                     if (::oldState.isInitialized && it.sortingType != oldState.sortingType) {
                         showFlightListMvc.scrollListToTop()
@@ -85,7 +83,7 @@ class ShowFlightListFragment : BaseFragment(), ToolbarMvc.Listener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        if (viewModel.getAppStateStream().value!!.flightDetailsResource.status is Status.Success) {
+        if (viewModel.getAppStateStream().value!!.flightResponseType is FlightResponseType.Success) {
             toolbarMvc = viewMvcFactory.getToolBarMvc(inflater, menu)
             toolbarMvc.registerListener(this)
         }

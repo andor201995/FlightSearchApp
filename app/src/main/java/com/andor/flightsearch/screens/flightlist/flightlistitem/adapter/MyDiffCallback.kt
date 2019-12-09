@@ -1,21 +1,16 @@
 package com.andor.flightsearch.screens.flightlist.flightlistitem.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.andor.flightsearch.flight.flightSchema.Flight
+import com.andor.flightsearch.flight.FlightDetail
 
 class MyDiffCallback(
-    private val oldFlightList: List<Flight>,
-    private val newFlightList: List<Flight>
+    private val oldFlightList: ArrayList<FlightDetail>,
+    private val newFlightList: List<FlightDetail>
 ) :
     DiffUtil.Callback() {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldFlightList[oldItemPosition].airlineCode == newFlightList[newItemPosition].airlineCode &&
-                oldFlightList[oldItemPosition].arrivalTime == newFlightList[newItemPosition].arrivalTime &&
-                oldFlightList[oldItemPosition].departureTime == newFlightList[newItemPosition].departureTime &&
-                oldFlightList[oldItemPosition].`class` == newFlightList[newItemPosition].`class` &&
-                oldFlightList[oldItemPosition].originCode == newFlightList[newItemPosition].originCode &&
-                oldFlightList[oldItemPosition].destinationCode == newFlightList[newItemPosition].destinationCode
+        return oldFlightList[oldItemPosition] == newFlightList[newItemPosition]
     }
 
     override fun getOldListSize(): Int {
@@ -27,7 +22,12 @@ class MyDiffCallback(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldFlightList[oldItemPosition] == newFlightList[newItemPosition]
+        return oldFlightList[oldItemPosition].airlineName == newFlightList[newItemPosition].airlineName &&
+                oldFlightList[oldItemPosition].flightArrivalTimeStamp == newFlightList[newItemPosition].flightArrivalTimeStamp &&
+                oldFlightList[oldItemPosition].flightDepartureTimeStamp == newFlightList[newItemPosition].flightDepartureTimeStamp &&
+                oldFlightList[oldItemPosition].classOfSeatInFlight == newFlightList[newItemPosition].classOfSeatInFlight &&
+                oldFlightList[oldItemPosition].originCode == newFlightList[newItemPosition].originCode &&
+                oldFlightList[oldItemPosition].destinationCode == newFlightList[newItemPosition].destinationCode
     }
 
 }

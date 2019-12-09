@@ -1,7 +1,9 @@
 package com.andor.flightsearch.core.dependencyinjection.presentation
 
 import androidx.lifecycle.ViewModel
-import com.andor.flightsearch.network.Repository
+import com.andor.flightsearch.flight.FetchFlightListUseCase
+import com.andor.flightsearch.flight.FetchFlightListUseCaseImpl
+import com.andor.flightsearch.network.flight.FetchFlightListEndPoint
 import com.andor.flightsearch.screens.common.viewmodel.FlightSearchViewModel
 import com.andor.flightsearch.screens.common.viewmodel.ViewModelFactory
 import dagger.MapKey
@@ -30,7 +32,7 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(FlightSearchViewModel::class)
-    fun flightSearchViewModel(repository: Repository): ViewModel {
-        return FlightSearchViewModel(repository)
+    fun flightSearchViewModel(fetchFlightListUseCase: FetchFlightListUseCase): ViewModel {
+        return FlightSearchViewModel(fetchFlightListUseCase)
     }
 }

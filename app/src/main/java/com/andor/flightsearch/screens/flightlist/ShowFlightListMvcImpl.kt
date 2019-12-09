@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andor.flightsearch.R
 import com.andor.flightsearch.core.invisible
 import com.andor.flightsearch.core.visible
-import com.andor.flightsearch.flight.flightSchema.Appendix
-import com.andor.flightsearch.flight.flightSchema.Flight
+import com.andor.flightsearch.flight.FlightDetail
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.views.BaseViewMvc
 import com.andor.flightsearch.screens.flightlist.flightlistitem.adapter.FlightListAdapter
@@ -61,10 +60,9 @@ class ShowFlightListMvcImpl(
     }
 
     override fun updateFlightList(
-        flights: List<Flight>,
-        appendix: Appendix
+        flights: List<FlightDetail>
     ) {
-        adapter.updateList(flights, appendix)
+        adapter.updateList(flights)
     }
 
     override fun scrollListToTop() {

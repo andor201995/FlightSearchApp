@@ -4,8 +4,7 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.andor.flightsearch.flight.flightSchema.Appendix
-import com.andor.flightsearch.flight.flightSchema.Flight
+import com.andor.flightsearch.flight.FlightDetail
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.flightlist.flightlistitem.FlightListItemMvc
 
@@ -13,8 +12,7 @@ import com.andor.flightsearch.screens.flightlist.flightlistitem.FlightListItemMv
 class FlightListAdapter(private val viewMvcFactory: ViewMvcFactory) :
     RecyclerView.Adapter<FlightListAdapter.FlightHolder>() {
 
-    private var appendix: Appendix = Appendix()
-    private val flightList: ArrayList<Flight> = ArrayList()
+    private val flightList: ArrayList<FlightDetail> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlightHolder {
         return FlightHolder(viewMvcFactory.getFlightListItemMvc(parent))
@@ -26,12 +24,11 @@ class FlightListAdapter(private val viewMvcFactory: ViewMvcFactory) :
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: FlightHolder, position: Int) {
-        holder.flightListItemMvc.bindFlight(flightList[position], appendix)
+        holder.flightListItemMvc.bindFlight(flightList[position])
     }
 
     fun updateList(
-        newFlights: List<Flight>,
-        appendix: Appendix
+        newFlights: List<FlightDetail>
     ) {
         val diffResult = DiffUtil.calculateDiff(
             MyDiffCallback(
@@ -41,7 +38,6 @@ class FlightListAdapter(private val viewMvcFactory: ViewMvcFactory) :
         )
         flightList.clear()
         flightList.addAll(newFlights)
-        this.appendix = appendix
         diffResult.dispatchUpdatesTo(this)
     }
 

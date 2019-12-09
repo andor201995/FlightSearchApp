@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andor.flightsearch.R
-import com.andor.flightsearch.flight.flightSchema.Airlines
-import com.andor.flightsearch.flight.flightSchema.Appendix
-import com.andor.flightsearch.flight.flightSchema.Fare
-import com.andor.flightsearch.flight.flightSchema.Flight
+import com.andor.flightsearch.flight.FlightDetail
+import com.andor.flightsearch.flight.FlightFareDetail
+import com.andor.flightsearch.network.flight.flightSchema.Appendix
+import com.andor.flightsearch.network.flight.flightSchema.Fare
 import com.andor.flightsearch.screens.common.ViewMvcFactory
 import com.andor.flightsearch.screens.common.views.BaseViewMvc
 import com.andor.flightsearch.screens.flightlist.flightlistitem.adapter.FareListAdapter
@@ -47,48 +47,27 @@ class FlightListItemMvcImpl(
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun bindFlight(
-        flight: Flight,
-        appendix: Appendix
+        flight: FlightDetail
     ) {
 
-        airlineNameTxt.text = when (flight.airlineCode) {
-            Airlines.airlineCode1 -> {
-                appendix.airlines.`6E`
-            }
-            Airlines.airlineCode2 -> {
-                appendix.airlines.`9W`
-            }
-            Airlines.airlineCode3 -> {
-                appendix.airlines.AI
-            }
-            Airlines.airlineCode4 -> {
-                appendix.airlines.G8
-            }
-            Airlines.airlineCode5 -> {
-                appendix.airlines.SG
-            }
-            else -> {
-                "Unknown"
-            }
-        }
-
-        airlineClassTxt.text = flight.`class`
+        airlineNameTxt.text = flight.airlineName
+        airlineClassTxt.text = flight.classOfSeatInFlight
 
         val calendar = Calendar.getInstance()
-        calendar.timeInMillis = flight.arrivalTime
+        calendar.timeInMillis = flight.flightArrivalTimeStamp
 
         val dateFormat = SimpleDateFormat(
             "hh:mm a"
         )
 
         arrivalTimeTxt.text =
-            DateFormat.getDateInstance().format(Date(flight.arrivalTime)) + "\n" + dateFormat.format(
+            DateFormat.getDateInstance().format(Date(flight.flightArrivalTimeStamp)) + "\n" + dateFormat.format(
                 calendar.time
             )
 
-        calendar.timeInMillis = flight.departureTime
+        calendar.timeInMillis = flight.flightDepartureTimeStamp
         depTimeTxt.text =
-            DateFormat.getDateInstance().format(Date(flight.departureTime)) + "\n" + dateFormat.format(
+            DateFormat.getDateInstance().format(Date(flight.flightDepartureTimeStamp)) + "\n" + dateFormat.format(
                 calendar.time
             )
 
@@ -96,19 +75,17 @@ class FlightListItemMvcImpl(
         originCodeTxt.text = flight.originCode
 
         //setting up fare RecyclerView
-        setFareListRecyclerView(flight, appendix)
+        setFareListRecyclerView(flight)
 
     }
 
     private fun setFareListRecyclerView(
-        flight: Flight,
-        appendix: Appendix
+        flight: FlightDetail
     ) {
         val adapter = FareListAdapter(viewMvcFactory)
-        val sortFareList = sortFareList(flight.fares)
+        val sortFareList = sortFareList(flight.flightFareList)
 
         adapter.fareList = sortFareList
-        adapter.appendix = appendix
 
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = RecyclerView.HORIZONTAL
@@ -117,8 +94,8 @@ class FlightListItemMvcImpl(
         fareListView.layoutManager = linearLayoutManager
     }
 
-    private fun sortFareList(fareList: List<Fare>): ArrayList<Fare> {
-        return ArrayList(fareList.sortedBy { it.fare })
+    private fun sortFareList(fareList: List<FlightFareDetail>): ArrayList<FlightFareDetail> {
+        return ArrayList(fareList.sortedBy { it.costOfFlight })
     }
 
 }

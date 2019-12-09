@@ -1,4 +1,4 @@
-package com.andor.flightsearch.flight.flightSchema
+package com.andor.flightsearch.network.flight.flightSchema
 
 data class Airlines(
     val `6E`: String = "",
